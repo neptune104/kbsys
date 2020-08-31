@@ -1,0 +1,51 @@
+psql -U postgres -f db-20200831.out
+
+
+cp db-20200831.out /nas1/bizmicro-portal/prod/postgres-master/postgresql/conf/
+
+sudo /opt/tableau/tableau_server/packages/scripts.20182.18.1214.0751/initialize-tsm --accepteula
+
+grep tsmadmin /etc/group
+
+사용자 계정이 그룹에없는 경우 다음 명령을 실행하여 사용자를 tsmadmin그룹 에 추가합니다 .
+
+sudo usermod -G tsmadmin -a <username>
+
+
+
+
+
+[root@mxdcos13 tableau]# /opt/tableau/tableau_server/packages/scripts.20182.18.1214.0751/initialize-tsm --accepteula
+Creating 'tsmadmin' group for TSM admin authorization
+Creating 'tableau' unprivileged user account
+Creating directories and setting permissions...
+Using '/var/opt/tableau/tableau_server' as the data directory.
+Adding user 'syssud' to group 'tableau'...
+Adding user 'syssud' to group 'tsmadmin'...
+Added. Note: These group membership changes do not take effect in shells already open. For these to take effect, log out of the shell and log back in.
+Creating environment file...
+Starting TSM services...
+
+
+Tableau Server 조정 서비스의 리포지토리 버전을 업데이트하는 중입니다.
+TSM services started successfully
+Use the 'tsm' command to continue setting up Tableau Server.
+>> Tableau binary directory will be added to PATH for new shells. To get the
+>> updated path, either start a new session, or for bash users run:
+>> source /etc/profile.d/tableau_server.sh
+The TSM administrative web interface (and REST API) is now available at
+https://mxdcos13:8850
+You can continue the configuration and initialization of Tableau server using either the TSM command line interface,
+or the web interface.
+You will be prompted to authenticate, or can log in using the username 'syssud', with the same password you used to log into this session (or any other username in the administrative group and with its password).
+Done.
+
+
+CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS                PORTS                                   NAMES
+84ba710dbdc4        redis:latest              "docker-entrypoint.s…"   24 months ago       Up 4 days             0.0.0.0:7000->6379/tcp                  etc-server_redis-server_1
+a636a2b8b46e        apsl/thumbor              "/docker-entrypoint.…"   24 months ago       Up 4 days             0.0.0.0:10038->8000/tcp                 etc-server_thumbor-server_1
+c54f788a392d        postgres:latest           "docker-entrypoint.s…"   24 months ago       Up 4 days             0.0.0.0:9999->5432/tcp                  etc-server_postgres-server_1
+fc197bc82b0c        gitlab/gitlab-ce:latest   "/assets/wrapper"        24 months ago       Up 4 days (healthy)   22/tcp, 443/tcp, 0.0.0.0:8000->80/tcp   gitlab
+
+
+
